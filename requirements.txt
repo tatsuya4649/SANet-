@@ -1,0 +1,8 @@
+
+
+torch
+glob
+tqdm
+matplotlib
+torchvision
+PIL
