@@ -8,6 +8,7 @@ import torch.nn as nn
 
 class Decoder(nn.Module):
     def __init__(self,parameters_path=None)
+        super().__init__()
         self.decoder = self.making_decoder()
         if parameters_path is not None:
             self.decode.load_state_dic(torch.load(parameters_path))

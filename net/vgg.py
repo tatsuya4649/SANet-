@@ -12,6 +12,7 @@ import torch.nn as nn
 
 class VGG19(nn.Module):
     def __init__(self,parameters_path=None):
+        super().__init__()
         self.vgg = self.making_vgg()
         if parameters_path is not None:
             self.vgg.load_state_dict(torch.load(parameters_path)) 
