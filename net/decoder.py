@@ -64,5 +64,5 @@ class Decoder(nn.Module):
 if __name__ == "__main__":
     print("Hello,{}".format(__file__))
     decoder = Decoder()
-    rand = torch.rand(1,3,512,512)
+    rand = torch.rand(1,512,16,16)
     decoder_output = decoder(rand)
