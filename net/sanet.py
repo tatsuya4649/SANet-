@@ -70,3 +70,17 @@ class SANet(nn.Module):
         O = self.out_conv(O)
         O += content
         return O
+
+class Transform(nn.Module):
+    def __init__(self,in_planes_4,in_planes_5):
+        super().__init__()
+        self.sanet_4_1 = SANet(in_planes,in_planes_4)
+        self.sanet_5_1 = SANet(in_planes,in_planes_5)
+        self.upsample5_1 = nn.Upsample(scale_factor=2,mode='nearest')
+
+        self.merge_conv_pad = nn.ReflectionPad2d((1,1,1,1))
+        self.merge_conv1 = nn.Conv2d(in_planes_5,512,(3,3))
+        self.merge_conv2 = nn.Conv2d(512,512,(3,3))
+        self.merge_conv3 = nn.Conv2d(512,512,(3,3))
+        
+
