@@ -1,7 +1,6 @@
 
 
 torch
-glob
 tqdm
 matplotlib
 torchvision
