@@ -76,6 +76,6 @@ if __name__ == "__main__":
     print("Hello,{}".format(__file__))
     content = VGG_Stylized_Content()
     style = VGG_Stylized_Style()
-    rand = [torch.rand(16,16,512),torch.rand(16,16,512),torch.rand(16,16,512),torch.rand(16,16,512),torch.rand(16,16,512)]
+    rand = [torch.rand(256,256,64),torch.rand(128,128,128),torch.rand(64,64,256),torch.rand(32,32,512),torch.rand(16,16,512)]
     content_output = content(rand)
     style_output = style(rand)

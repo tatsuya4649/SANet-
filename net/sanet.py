@@ -82,5 +82,14 @@ class Transform(nn.Module):
         self.merge_conv1 = nn.Conv2d(in_planes_5,512,(3,3))
         self.merge_conv2 = nn.Conv2d(512,512,(3,3))
         self.merge_conv3 = nn.Conv2d(512,512,(3,3))
-        
+    def forward(self,content4_1,style4_1,content5_1,style5_1):
+        sa_output_4 = self.sanet_4_1(content4_1,style4_1)
+        sa_output_5 = self.sanet_5_1(content5_1,style5_1)
+        merge_conv_1_output = self.merge_conv1(self.merge_conv_pad(sa_output_4+sa_output_5))
+        merge_conv_2_output = self.merge_conv2(self.merge_conv_pad(merge_conv_1_output))
+        merge_conv_3_output = self.merge_conv3(self.merge_conv_pad(merge_conv_2_output))
+        return merge_conv_3_output
+
+if __name__ == "__main__":
+
 

@@ -43,7 +43,6 @@ class Decoder(nn.Module):
                 nn.ReLU(),
                 nn.ReflectionPad2d((1,1,1,1)),
                 nn.Conv2d(64,32,(3,3)),
-                nn.ReLU(),
                 nn.Upsample(scale_factor=2,mode='nearest'),
                 nn.ReflectionPad2d((1,1,1,1)),
                 nn.Conv2d(32,32,(3,3)),
@@ -55,7 +54,7 @@ class Decoder(nn.Module):
                 nn.Conv2d(16,16,(3,3)),
                 nn.ReLU(),
                 nn.ReflectionPad2d((1,1,1,1)),
-                nn.Conv2d(16,3,(3,3)),
+                nn.Conv2d(16,3,(3,3))
         )
         return decoder
     def forward(self,input):
