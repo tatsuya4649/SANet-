@@ -88,11 +88,13 @@ class VGG19(nn.Module):
 
 if __name__ == "__main__":
     print("Hello,{}".format(__file__))
-    encoder = VGG19()
+    _DEFAULT_PATH = '../models/vgg_normalised.pth'
+    encoder = VGG19(_DEFAULT_PATH)
     rand = torch.rand(1,3,512,512)
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     print("-----------------VGG19 test-------------------")
     print('device => {}'.format(device))
+    print('VGG19 parameter file path => {}'.format(_DEFAULT_PATH))
     print("input shape => {}".format(rand.shape))
     enc4_output,enc5_output = encoder(rand)
     print("enc4_output.shape => {}".format(enc4_output.shape))

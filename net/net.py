@@ -100,7 +100,13 @@ if __name__ == "__main__":
     print('-------------------- Net test -------------------')
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     print('device => {}'.format(device))
-    net = Net()
+    _DEFAULT_VGG_STYLIZED_CONTENT_PATH = '../models/vgg_stylized_content_iter_485000_63.pth'
+    _DEFAULT_VGG_STYLIZED_STYLE_PATH = '../models/vgg_stylized_style_iter_485000_63.pth'
+    _DEFAULT_TRANSFORM_PATH = '../models/sa_module_iter_485000_63.pth'
+    print("vgg_stylized_content parameter file path => {}".format(_DEFAULT_VGG_STYLIZED_CONTENT_PATH))
+    print("vgg_stylized_style parameter file path => {}".format(_DEFAULT_VGG_STYLIZED_STYLE_PATH))
+    print("transform parameter file path => {}".format(_DEFAULT_TRANSFORM_PATH))
+    net = Net(_DEFAULT_VGG_STYLIZED_CONTENT_PATH,_DEFAULT_VGG_STYLIZED_STYLE_PATH,_DEFAULT_TRANSFORM_PATH)
     print("content_rand.shape => {}".format(content_rand.shape))
     print("style_rand.shape => {}".format(style_rand.shape))
     #loss_c,loss_s,loss_lambda1,loss_lambda2 = net(content_rand,style_rand)
