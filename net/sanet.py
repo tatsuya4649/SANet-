@@ -91,5 +91,10 @@ class Transform(nn.Module):
         return merge_conv_3_output
 
 if __name__ == "__main__":
-
-
+    print("Hello,{}".format(__file__))
+    transfer = Transform(in_planes_4=512,in_planes_5=512)
+    content4_1_rand = torch.rand(1,512,32,32)
+    style4_1_rand = torch.rand(1,512,32,32)
+    content5_1_rand = torch.rand(1,512,16,16)
+    style5_1_rand = torch.rand(1,512,16,16)
+    transfer_output = transfer(content4_1_rand,style4_1_rand,content5_1_rand,style5_1_rand)
