@@ -13,7 +13,7 @@ sys.path.append('../utils/')
 import loss_func as lf
 
 class Net(nn.Module):
-    def __init__(self,stylized_content_path=None,stylized_style_path=None,transform_path=None):
+    def __init__(self,vgg_path=None,decoder_path=None,stylized_content_path=None,stylized_style_path=None,transform_path=None):
         super().__init__()
         self.vgg_stylized_content = VGG_Stylized_Content()
         self.vgg_stylized_style = VGG_Stylized_Style()
@@ -25,7 +25,13 @@ class Net(nn.Module):
         if transform_path is not None:
             self.transform.load_state_dict(torch.load(transform_path))
         self.encoder = VGG19()
+        if vgg_path is not None:
+            self.encoder.vgg.load_state_dict(torch.load(vgg_path))
+
         self.decoder = Decoder()
+        if decoder_path is not None:
+            self.decoder.decoder.load_state_dict(torch.load(decoder_path))
+
         self.mse_loss = nn.MSELoss()
 
         enc_layers = list(self.encoder.vgg.children())
