@@ -11,7 +11,7 @@ class Decoder(nn.Module):
         super().__init__()
         self.decoder = self.making_decoder()
         if parameters_path is not None:
-            self.decode.load_state_dic(torch.load(parameters_path))
+            self.decoder.load_state_dic(torch.load(parameters_path))
     def making_decoder(self):
         decoder = nn.Sequential(
                 nn.ReflectionPad2d((1,1,1,1)),
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     print("Hello,{}".format(__file__))
     decoder = Decoder()
     rand = torch.rand(1,3,512,512)
-    decoder_output = Decoder(rand)
+    decoder_output = decoder(rand)
