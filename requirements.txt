@@ -4,4 +4,4 @@ torch
 tqdm
 matplotlib
 torchvision
-PIL
+opencv-python
