@@ -70,3 +70,12 @@ class VGG_Stylized_Style(nn.Module):
             func = getattr(self,'vgg_stylized_conv_{}_style'.format(i+1))
             results.append(func(inputs[i]))
         return results
+
+
+if __name__ == "__main__":
+    print("Hello,{}".format(__file__))
+    content = VGG_Stylized_Content()
+    style = VGG_Stylized_Style()
+    rand = torch.rand(1,32,32,512)
+    content_output = content(rand)
+    style_output = style(rand)

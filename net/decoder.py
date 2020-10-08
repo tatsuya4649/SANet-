@@ -60,3 +60,10 @@ class Decoder(nn.Module):
         return decoder
     def forward(self,input):
         return self.decoder(input)
+
+
+if __name__ == "__main__":
+    print("Hello,{}".format(__file__))
+    decoder = Decoder()
+    rand = torch.rand(1,3,512,512)
+    decoder_output = Decode(rand)
