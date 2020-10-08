@@ -16,7 +16,14 @@ class VGG19(nn.Module):
         self.vgg = self.making_vgg()
         if parameters_path is not None:
             self.vgg.load_state_dict(torch.load(parameters_path)) 
-    def making_vgg():
+        enc_layers = list(self.vgg.children())
+        self.enc4 = nn.Sequential(*enc_layers[:31])
+        self.enc5 = nn.Sequential(*enc_layers[31:44])
+        for name in ['enc4','enc5']:
+            for param in getattr(self,name).parameters():
+                param.requires_grad = False
+
+    def making_vgg(self):
         vgg = nn.Sequential(
                 nn.Conv2d(3,3,(1,1)),
                 nn.ReflectionPad2d((1,1,1,1)),
@@ -75,4 +82,20 @@ class VGG19(nn.Module):
         return vgg
 
     def forward(self,input):
-        return self.vgg(input)
+        enc4_output = self.enc4(input)
+        enc5_output = self.enc5(enc4_output)
+        return enc4_output,enc5_output
+
+if __name__ == "__main__":
+    print("Hello,{}".format(__file__))
+    encoder = VGG19()
+    rand = torch.rand(1,3,512,512)
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    print("-----------------VGG19 test-------------------")
+    print('device => {}'.format(device))
+    print("input shape => {}".format(rand.shape))
+    enc4_output,enc5_output = encoder(rand)
+    print("enc4_output.shape => {}".format(enc4_output.shape))
+    print("enc5_output.shape => {}".format(enc5_output.shape))
+    print('-------------------------------------------------')
+    print('clear!!!')

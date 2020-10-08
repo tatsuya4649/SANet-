@@ -27,9 +27,9 @@ class SANet(nn.Module):
         """
         for transering to Swift
         """
-        mu = torch.mead(feat,dim = 2)
+        mu = torch.mean(feat,dim = 2)
         mu = torch.reshape(x=mu,shape=(mu.shape[0],mu.shape[1],1))
-        sub = feat - mui
+        sub = feat - mu
         sub = sub * sub
         var = torch.mean(sub,dim=2)
         shape = feat.shape[2]
@@ -74,8 +74,8 @@ class SANet(nn.Module):
 class Transform(nn.Module):
     def __init__(self,in_planes_4,in_planes_5):
         super().__init__()
-        self.sanet_4_1 = SANet(in_planes,in_planes_4)
-        self.sanet_5_1 = SANet(in_planes,in_planes_5)
+        self.sanet_4_1 = SANet(in_planes_4)
+        self.sanet_5_1 = SANet(in_planes_5)
         self.upsample5_1 = nn.Upsample(scale_factor=2,mode='nearest')
 
         self.merge_conv_pad = nn.ReflectionPad2d((1,1,1,1))
@@ -84,7 +84,7 @@ class Transform(nn.Module):
         self.merge_conv3 = nn.Conv2d(512,512,(3,3))
     def forward(self,content4_1,style4_1,content5_1,style5_1):
         sa_output_4 = self.sanet_4_1(content4_1,style4_1)
-        sa_output_5 = self.sanet_5_1(content5_1,style5_1)
+        sa_output_5 = self.upsample5_1(self.sanet_5_1(content5_1,style5_1))
         merge_conv_1_output = self.merge_conv1(self.merge_conv_pad(sa_output_4+sa_output_5))
         merge_conv_2_output = self.merge_conv2(self.merge_conv_pad(merge_conv_1_output))
         merge_conv_3_output = self.merge_conv3(self.merge_conv_pad(merge_conv_2_output))
@@ -92,9 +92,19 @@ class Transform(nn.Module):
 
 if __name__ == "__main__":
     print("Hello,{}".format(__file__))
+    print('--------------------Transform test--------------------')
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    print('device => {}'.format(device))
     transfer = Transform(in_planes_4=512,in_planes_5=512)
     content4_1_rand = torch.rand(1,512,32,32)
     style4_1_rand = torch.rand(1,512,32,32)
+    print('content4_1_rand shape => {}'.format(content4_1_rand.shape))
+    print('style4_1_rand shape => {}'.format(style4_1_rand.shape))
     content5_1_rand = torch.rand(1,512,16,16)
     style5_1_rand = torch.rand(1,512,16,16)
+    print('content5_1_rand shape => {}'.format(content5_1_rand.shape))
+    print('style5_1_rand shape => {}'.format(style5_1_rand.shape))
     transfer_output = transfer(content4_1_rand,style4_1_rand,content5_1_rand,style5_1_rand)
+    print('transfer_output shape => {}'.format(transfer_output.shape))
+    print('------------------------------------------------------')
+    print('clear!!!')

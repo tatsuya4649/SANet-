@@ -42,7 +42,7 @@ vgg_stylized_conv_2_style = VGG_Attention_Style(dim=128)
 vgg_stylized_conv_1_style = VGG_Attention_Style(dim=64)
 
 class VGG_Stylized_Content(nn.Module):
-    def __init__(self):
+    def __init__(self,start=3):
         super().__init__()
         self.vgg_stylized_conv_5 = vgg_stylized_conv_5_content
         self.vgg_stylized_conv_4 = vgg_stylized_conv_4_content
@@ -51,13 +51,15 @@ class VGG_Stylized_Content(nn.Module):
         self.vgg_stylized_conv_1 = vgg_stylized_conv_1_content
     def forward(self,inputs):
         results = []
-        for i in range(5):
+        j = 0
+        for i in range(3,5):
             func = getattr(self,'vgg_stylized_conv_{}'.format(i+1))
-            results.append(func(inputs[i]))
+            results.append(func(inputs[j]))
+            j += 1
         return results
 
 class VGG_Stylized_Style(nn.Module):
-    def __init__(self):
+    def __init__(self,start=3):
         super().__init__()
         self.vgg_stylized_conv_5_style = vgg_stylized_conv_5_style
         self.vgg_stylized_conv_4_style = vgg_stylized_conv_4_style
@@ -66,9 +68,11 @@ class VGG_Stylized_Style(nn.Module):
         self.vgg_stylized_conv_1_style = vgg_stylized_conv_1_style
     def forward(self,inputs):
         results = []
-        for i in range(5):
+        j = 0
+        for i in range(3,5):
             func = getattr(self,'vgg_stylized_conv_{}_style'.format(i+1))
-            results.append(func(inputs[i]))
+            results.append(func(inputs[j]))
+            j += 1
         return results
 
 
@@ -76,6 +80,10 @@ if __name__ == "__main__":
     print("Hello,{}".format(__file__))
     content = VGG_Stylized_Content()
     style = VGG_Stylized_Style()
-    rand = [torch.rand(256,256,64),torch.rand(128,128,128),torch.rand(64,64,256),torch.rand(32,32,512),torch.rand(16,16,512)]
+    rand = [torch.rand(1,512,32,32),torch.rand(1,512,16,16)]
     content_output = content(rand)
     style_output = style(rand)
+    for content in content_output:
+        print(content.shape)
+    for style in style_output:
+        print(style.shape)
