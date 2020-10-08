@@ -51,7 +51,7 @@ class VGG_Stylized_Content(nn.Module):
         self.vgg_stylized_conv_1 = vgg_stylized_conv_1_content
     def forward(self,inputs):
         results = []
-        for i in ragnge(5):
+        for i in range(5):
             func = getattr(self,'vgg_stylized_conv_{}'.format(i+1))
             results.append(func(inputs[i]))
         return results
@@ -66,7 +66,7 @@ class VGG_Stylized_Style(nn.Module):
         self.vgg_stylized_conv_1_style = vgg_stylized_conv_1_style
     def forward(self,inputs):
         results = []
-        for i in ragnge(5):
+        for i in range(5):
             func = getattr(self,'vgg_stylized_conv_{}_style'.format(i+1))
             results.append(func(inputs[i]))
         return results

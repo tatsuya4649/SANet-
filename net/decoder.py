@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 
 class Decoder(nn.Module):
-    def __init__(self,parameters_path=None)
+    def __init__(self,parameters_path=None):
         super().__init__()
         self.decoder = self.making_decoder()
         if parameters_path is not None:
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     print("Hello,{}".format(__file__))
     decoder = Decoder()
     rand = torch.rand(1,3,512,512)
-    decoder_output = Decode(rand)
+    decoder_output = Decoder(rand)
