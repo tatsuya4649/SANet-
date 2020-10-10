@@ -26,4 +26,4 @@ model = coremltools.convert(
 		coremltools.TensorType(name="style_5",shape=ex_style5.shape),
 		coremltools.TensorType(name="alpha",shape=ex_alpha.shape)
 	])
-model.save("../../mlmodels/sanet_transform_512.mlmodel")
+model.save("../../mlmodels/64/sanet_transform_512.mlmodel")

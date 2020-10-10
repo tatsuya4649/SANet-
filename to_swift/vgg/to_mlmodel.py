@@ -20,4 +20,4 @@ model = coremltools.convert(
 	source = "pytorch",
 	inputs = [coremltools.ImageType(name="content",shape=ex_content.shape,scale=_SCALE),coremltools.ImageType(name="style",shape=ex_style.shape,scale=_SCALE)]
 )
-model.save("../../mlmodels/sanet_vgg_512.mlmodel")
+model.save("../../mlmodels/64/sanet_vgg_512.mlmodel")
