@@ -33,7 +33,7 @@ class SANet(nn.Module):
         sub = sub * sub
         var = torch.mean(sub,dim=2)
         shape = feat.shape[2]
-        var = (shape/(shape - 1)) * var
+        var = float(float(shape)/float(shape - 1)) * var
         return var
 
     def calc_mean_std(self,feat,eps=1e-5):
@@ -86,7 +86,7 @@ class Transform(nn.Module):
         sa_output_4 = self.sanet4_1(content4_1,style4_1)
         sa_output_5 = self.upsample5_1(self.sanet5_1(content5_1,style5_1))
         merge_conv_1_output = self.merge_conv1(self.merge_conv_pad(sa_output_4+sa_output_5))
-        merge_conv_2_output = self.merge_conv2(self.merge_conv_pad(merge_conv_1_output))
+       	merge_conv_2_output = self.merge_conv2(self.merge_conv_pad(merge_conv_1_output))
         merge_conv_3_output = self.merge_conv3(self.merge_conv_pad(merge_conv_2_output))
         return merge_conv_3_output
 

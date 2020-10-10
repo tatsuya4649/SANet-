@@ -86,9 +86,9 @@ class VGG19(nn.Module):
         enc5_output = self.enc5(enc4_output)
         return enc4_output,enc5_output
 
+_DEFAULT_PATH = '../models/vgg_normalised.pth'
 if __name__ == "__main__":
     print("Hello,{}".format(__file__))
-    _DEFAULT_PATH = '../models/vgg_normalised.pth'
     encoder = VGG19(_DEFAULT_PATH)
     rand = torch.rand(1,3,512,512)
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')

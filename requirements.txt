@@ -6,3 +6,4 @@ matplotlib
 torchvision
 opencv-python
 argparse
+coremltools==4.0b4

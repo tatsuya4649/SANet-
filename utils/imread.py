@@ -9,9 +9,11 @@ def imresize(image):
     height = image.shape[0]
     width = image.shape[1]
     if height < width:
-        image = cv2.resize(image,(int(_DEFAULT_SIZE),int(_DEFAULT_SIZE*(height/width))))
-    else:
         image = cv2.resize(image,(int(_DEFAULT_SIZE*(width/height)),int(_DEFAULT_SIZE)))
+        image = image[:,:,int(_DEFAULT_SIZE/2-width/2):int(_DEFAULT_SIZE/2+width/2)]
+    else:
+        image = cv2.resize(image,(int(_DEFAULT_SIZE),int(_DEFAULT_SIZE*(height/width))))
+        image = image[:,int(_DEFAULT_SIZE/2-height/2):int(_DEFAULT_SIZE/2+height/2)]
     return image
 
 
