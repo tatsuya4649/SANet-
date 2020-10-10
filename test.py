@@ -15,6 +15,7 @@ parser.add_argument('-v',default='models/vgg_normalised.pth',help='VGG19 model p
 parser.add_argument('-d',default='models/decoder_iter_485000_63.pth',help='Decoder model parameter file path',type=str)
 parser.add_argument('-c',"--content_image",default='brad_pitt.jpg',help='content image path',type=str)
 parser.add_argument('-s',"--style_image",default='in1.jpg',help='style image path',type=str)
+parser.add_argument('-a',"--alpha",default=1.0,help='transform alpha',type=float)
 
 args = parser.parse_args()
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -28,7 +29,7 @@ content_image = imread.imread(content_image_path).to(device)#BxCxHxW
 style_image= imread.imread(style_image_path).to(device)
 
 print('generate image now...')
-network_output = network.generate_image(content=content_image,style=style_image)
+network_output = network.generate_image(content=content_image,style=style_image,alpha=args.alpha)
 print('generate image !!!')
 fig = plt.figure(figsize=(30,10))
 content_fig = plt.subplot(1,3,1)

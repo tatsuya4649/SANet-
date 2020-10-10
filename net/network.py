@@ -63,12 +63,14 @@ class Net(nn.Module):
     def small_images(self,images):
         return torch.nn.functional.interpolate(images,scale_factor=0.25,mode='bicubic')
 
-    def generate_image(self,content,style):
+    def generate_image(self,content,style,alpha=1.0):
         content_feats_4,content_feats_5 = self.encoder(content)
         style_feats_4,style_feats_5 = self.encoder(style)
         new_content_feats_4,new_content_feats_5 = self.vgg_stylized_content([content_feats_4,content_feats_5])
         new_style_feats_4,new_style_feats_5 = self.vgg_stylized_style([style_feats_4,style_feats_5])
-        transform_output = self.transform(new_content_feats_4,new_style_feats_4,new_content_feats_5,new_style_feats_5)
+        transform_output_cs = self.transform(new_content_feats_4,new_style_feats_4,new_content_feats_5,new_style_feats_5)
+        transform_output_cc = self.transform(new_content_feats_4,new_content_feats_4,new_content_feats_5,new_content_feats_5)
+        transform_output = alpha * transform_output_cs + (1-alpha) * transform_output_cc
         decoder_output = self.decoder(transform_output)
         return decoder_output
 
